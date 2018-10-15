@@ -43,13 +43,9 @@ public class User {
     private LocalDate modified;
 
     @Getter
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "userId", referencedColumnName = "id")
     private List<Phone> phones = new ArrayList<>();
-
-    public void addPhone(Phone phone) {
-        this.phones.add(phone);
-    }
 }
 
 

@@ -21,6 +21,15 @@ public class UserController {
     @PostMapping
     public UserDTO create(@RequestBody @Valid User user) {
         User userSave = userRepository.save(user);
+
+
+        userSave.getPhones()
+                .stream()
+                .findAny()
+                .ifPresent(comment ->
+                        comment.setUserId(userSave.getId())
+                );
+
         return null;
     }
 
