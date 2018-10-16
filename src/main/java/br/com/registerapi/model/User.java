@@ -2,8 +2,9 @@ package br.com.registerapi.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -12,39 +13,34 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
+@Builder
 @Entity
 @EqualsAndHashCode(of = {"id"})
 public class User {
 
     @Id
-    @Getter
     @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Getter
     @NotNull
     private String name;
 
-    @Getter
     @NotNull
     @Email
     private String email;
 
-    @Getter
     @NotNull
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @JsonIgnore
     private LocalDate created;
 
-    @JsonIgnore
     private LocalDate modified;
 
-    @Getter
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "userId", referencedColumnName = "id")
+    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
     private List<Phone> phones = new ArrayList<>();
 }
 

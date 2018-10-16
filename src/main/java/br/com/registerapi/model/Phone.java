@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
@@ -21,6 +22,7 @@ public class Phone {
     private Integer number;
 
     @JsonIgnore
+    @Column(name = "USER_ID")
     private Long userId;
 
 }

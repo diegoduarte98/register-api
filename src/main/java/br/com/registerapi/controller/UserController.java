@@ -1,10 +1,9 @@
 package br.com.registerapi.controller;
 
-import br.com.registerapi.dto.UserDTO;
+import br.com.registerapi.dto.NewUserDTO;
+import br.com.registerapi.dto.UserSavedDTO;
 import br.com.registerapi.model.User;
-import br.com.registerapi.repository.UserRepository;
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import br.com.registerapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,30 +15,16 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @PostMapping
-    public UserDTO create(@RequestBody @Valid User user) {
-        User userSave = userRepository.save(user);
-
-
-        userSave.getPhones()
-                .stream()
-                .findAny()
-                .ifPresent(comment ->
-                        comment.setUserId(userSave.getId())
-                );
-
-        return null;
+    public UserSavedDTO create(@RequestBody @Valid NewUserDTO user) {
+        return userService.create(user);
     }
 
     @GetMapping
     public List<User> get() {
-
-        List<User> users = userRepository.findAll();
-
-
-        return users;
+        return userService.findAll();
     }
 
 }

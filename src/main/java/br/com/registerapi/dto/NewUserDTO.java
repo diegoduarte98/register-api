@@ -2,26 +2,21 @@ package br.com.registerapi.dto;
 
 import br.com.registerapi.model.Phone;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
+import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public class UserDTO {
-
-    private Long id;
+@Data
+@Builder
+public class NewUserDTO {
 
     private String name;
 
     private String email;
 
-    private LocalDate created;
-
-    private LocalDate modified;
-
-    @JsonProperty("last_login")
-    private LocalDate lastLogin;
-
-    private String token;
+    private String password;
 
     private List<Phone> phones;
 
