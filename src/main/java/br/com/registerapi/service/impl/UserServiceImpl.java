@@ -37,10 +37,10 @@ public class UserServiceImpl implements UserService {
             throw new EmailException("E-mail já existente.");
         }
 
+        List<Phone> phones = user.getPhones();
+        phones.forEach(phone -> phone.setUserId(user.getId()));
         User userSaved = userRepository.save(this.getUserBuilder(user));
 
-        List<Phone> phones = userSaved.getPhones();
-        phones.forEach(phone -> phone.setUserId(userSaved.getId()));
 
         return userSaved;
     }

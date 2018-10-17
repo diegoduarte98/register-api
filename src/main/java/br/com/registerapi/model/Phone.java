@@ -3,19 +3,27 @@ package br.com.registerapi.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import java.util.UUID;
 
 @Data
 @Entity
 @EqualsAndHashCode
 public class Phone {
 
-    @Id
     @JsonIgnore
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    private UUID id;
 
     private Integer ddd;
 
@@ -23,6 +31,6 @@ public class Phone {
 
     @JsonIgnore
     @Column(name = "USER_ID")
-    private Long userId;
+    private UUID userId;
 
 }

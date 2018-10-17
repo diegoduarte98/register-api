@@ -21,4 +21,9 @@ public class RegisterApiApplication {
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
+
+	@Bean
+	public ObjectMapper objectMapper() {
+		return new ObjectMapper();
+	}
 }
