@@ -1,6 +1,5 @@
 package br.com.registerapi.controller;
 
-import br.com.registerapi.dto.NewUserDTO;
 import br.com.registerapi.dto.UserSavedDTO;
 import br.com.registerapi.model.User;
 import br.com.registerapi.service.UserService;
@@ -18,7 +17,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public UserSavedDTO create(@RequestBody @Valid NewUserDTO user) {
+    public User create(@RequestBody @Valid User user) {
         return userService.create(user);
     }
 

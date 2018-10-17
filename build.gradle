@@ -30,6 +30,7 @@ dependencies {
 	implementation('org.flywaydb:flyway-core')
 	compile('io.springfox:springfox-swagger2:2.9.2')
 	compile('io.springfox:springfox-swagger-ui:2.9.2')
+	compile('org.modelmapper:modelmapper:2.3.0')
 	runtimeOnly('org.hsqldb:hsqldb')
 	compileOnly('org.projectlombok:lombok')
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
