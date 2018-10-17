@@ -3,9 +3,7 @@ package br.com.registerapi.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.persistence.*;
@@ -19,6 +17,8 @@ import java.util.List;
 @Entity
 @Builder
 @EqualsAndHashCode(of = {"id"})
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Id
