@@ -3,7 +3,7 @@ package br.com.registerapi.dto;
 import lombok.Data;
 
 @Data
-public class LoginDTO {
+public class CredenciaisDTO {
 
     private String email;
 

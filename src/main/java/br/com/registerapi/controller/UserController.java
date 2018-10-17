@@ -1,6 +1,5 @@
 package br.com.registerapi.controller;
 
-import br.com.registerapi.dto.UserSavedDTO;
 import br.com.registerapi.model.User;
 import br.com.registerapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

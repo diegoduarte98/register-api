@@ -56,7 +56,6 @@ public class User {
 
     @ApiModelProperty(readOnly = true)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    @Transient
     private String token;
 }
 
