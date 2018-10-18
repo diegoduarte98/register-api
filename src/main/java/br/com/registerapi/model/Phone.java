@@ -1,6 +1,7 @@
 package br.com.registerapi.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;
@@ -12,6 +13,7 @@ import javax.persistence.Id;
 import java.util.UUID;
 
 @Data
+@Builder
 @Entity
 @EqualsAndHashCode
 public class Phone {

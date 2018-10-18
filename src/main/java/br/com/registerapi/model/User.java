@@ -29,6 +29,7 @@ import static br.com.registerapi.security.SecurityConstants.EXPIRATION_TIME;
 import static br.com.registerapi.security.SecurityConstants.SECRET;
 
 @Data
+@Builder
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
