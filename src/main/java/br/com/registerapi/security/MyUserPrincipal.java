@@ -19,8 +19,7 @@ public class MyUserPrincipal implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		//List<Permissao> permissoes = usuario.getPermissoes();
-		return null;//permissoes.stream().map(x -> new SimpleGrantedAuthority(x.getDescricao())).collect(Collectors.toList());
+		return null;
 	}
 
 	@Override

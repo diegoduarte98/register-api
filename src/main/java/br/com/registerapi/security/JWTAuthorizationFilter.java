@@ -3,7 +3,6 @@ package br.com.registerapi.security;
 import br.com.registerapi.exception.handler.CustomErrorDetails;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -47,10 +46,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
             chain.doFilter(req, res);
 
         } catch (Exception e) {
-            CustomErrorDetails error = CustomErrorDetails.builder().message("Não autorizado.").build();
-            res.setContentType(MediaType.APPLICATION_JSON.toString());
-            res.setStatus(HttpStatus.BAD_REQUEST.value());
-            res.getWriter().write(new ObjectMapper().writeValueAsString(error));
+            this.forbidden(res);
         }
     }
 
@@ -72,5 +68,20 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         }
 
         return null;
+    }
+
+    private void forbidden(HttpServletResponse res) {
+
+        try {
+
+            CustomErrorDetails error = CustomErrorDetails.builder().message("Não autorizado.").build();
+            res.setContentType(MediaType.APPLICATION_JSON.toString());
+            res.setStatus(HttpStatus.FORBIDDEN.value());
+            res.getWriter().write(new ObjectMapper().writeValueAsString(error));
+
+        } catch (Exception e) {
+
+        }
+
     }
 }

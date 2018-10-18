@@ -1,6 +1,5 @@
 package br.com.registerapi.configurarion;
 
-import br.com.registerapi.security.JWTAuthenticationFilter;
 import br.com.registerapi.security.JWTAuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -33,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/swagger-ui.html",
             "/v2/api-docs",
             "/configuration/ui",
-            "/swagger-resources",
+            "/swagger-resources/**",
             "/configuration/security",
             "/webjars/**"
     };
@@ -44,10 +43,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable();
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_SWAGGER).permitAll()
-                .antMatchers(HttpMethod.POST, "/login", "/users").permitAll()
+                .antMatchers(HttpMethod.POST, "/users/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
                 .addFilter(new JWTAuthorizationFilter(authenticationManager(), userDetailsService));
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

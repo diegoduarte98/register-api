@@ -1,23 +1,24 @@
 package br.com.registerapi.service.impl;
 
-import br.com.registerapi.exception.EmailException;
-import br.com.registerapi.model.Phone;
+import br.com.registerapi.dto.CredenciaisDTO;
+import br.com.registerapi.exception.EmailExistingException;
+import br.com.registerapi.exception.EmailNotFoundException;
+import br.com.registerapi.exception.PasswordInvalidException;
+import br.com.registerapi.exception.SessionInvalidException;
 import br.com.registerapi.model.User;
 import br.com.registerapi.repository.UserRepository;
 import br.com.registerapi.service.UserService;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.NoResultException;
+import java.time.Duration;
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-
-import static br.com.registerapi.security.SecurityConstants.EXPIRATION_TIME;
-import static br.com.registerapi.security.SecurityConstants.SECRET;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -34,36 +35,41 @@ public class UserServiceImpl implements UserService {
         Optional<User> emailOptional = userRepository.findByEmail(user.getEmail());
 
         if(emailOptional.isPresent()) {
-            throw new EmailException("E-mail já existente.");
+            throw new EmailExistingException();
         }
 
-        List<Phone> phones = user.getPhones();
-        phones.forEach(phone -> phone.setUserId(user.getId()));
-        User userSaved = userRepository.save(this.getUserBuilder(user));
-
+        User userSaved = userRepository.save(user.newUser(bCryptPasswordEncoder));
 
         return userSaved;
     }
 
     @Override
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public User auth(CredenciaisDTO credenciais) {
+
+        Optional<User> emailOptional = userRepository.findByEmail(credenciais.getEmail());
+
+        emailOptional.filter(user -> user.getEmail().equals(credenciais.getEmail())).orElseThrow(EmailNotFoundException::new);
+        emailOptional.filter(user -> bCryptPasswordEncoder.matches(credenciais.getPassword(), user.getPassword())).orElseThrow(PasswordInvalidException::new);
+
+        User user = emailOptional.get();
+        user.setLastLogin(LocalDateTime.now());
+
+        userRepository.save(user);
+
+        return user;
     }
 
-    private User getUserBuilder(User user) {
+    @Override
+    public User findById(UUID id) {
 
-        String token = Jwts.builder()
-                .setSubject(user.getEmail())
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(SignatureAlgorithm.HS512, SECRET.getBytes()).compact();
+        Optional<User> optionalUser = userRepository.findById(id);
 
-        User newUser = user;
-        newUser.setCreated(LocalDate.now());
-        newUser.setModified(LocalDate.now());
-        newUser.setLastLogin(LocalDate.now());
-        newUser.setToken(token);
-        newUser.setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));
+        if(!optionalUser.isPresent()) {
+            throw new NoResultException();
+        }
 
-        return newUser;
+        optionalUser.filter(user -> Duration.between(user.getLastLogin(), LocalDateTime.now()).toMinutes() < 30).orElseThrow(SessionInvalidException::new);
+
+        return optionalUser.get();
     }
 }

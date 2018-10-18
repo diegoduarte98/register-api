@@ -1,5 +1,6 @@
 package br.com.registerapi.controller;
 
+import br.com.registerapi.dto.CredenciaisDTO;
 import br.com.registerapi.model.User;
 import br.com.registerapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("users")
@@ -22,9 +23,14 @@ public class UserController {
         return userService.create(user);
     }
 
-    @GetMapping
-    public List<User> get() {
-        return userService.findAll();
+    @PostMapping("auth")
+    public User auth(@RequestBody @Valid CredenciaisDTO credenciais) {
+        return userService.auth(credenciais);
+    }
+
+    @GetMapping("{id}")
+    public User findById(@PathVariable("id") UUID id) {
+        return userService.findById(id);
     }
 
 }
