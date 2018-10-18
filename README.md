@@ -1,4 +1,4 @@
-## POST http://localhost:8080/users
+#### POST http://localhost:8080/users
 {
   "email": "diego@diegodusarte.com.br",
   "name": "Diego",
@@ -12,8 +12,8 @@
 }
 
 
-## POST http://localhost:8080/login
+#### POST http://localhost:8080/login
 {"email":"diego@diegodusarte.com.br","password":"123456"}
 
-## GET http://localhost:8080/users
+#### GET http://localhost:8080/users
 Authorization: {TOKEN}
