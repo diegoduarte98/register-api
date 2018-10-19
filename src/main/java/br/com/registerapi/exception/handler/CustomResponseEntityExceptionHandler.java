@@ -69,7 +69,7 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
 
         error = CustomErrorDetails.builder().message("Nenhum resultado encontrado.").build();
 
-        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(error, HttpStatus.NO_CONTENT);
     }
 
     @Override
