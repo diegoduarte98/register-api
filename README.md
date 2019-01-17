@@ -11,7 +11,6 @@
   ]
 }
 
-
 #### POST https://api-register.herokuapp.com/users/auth
 {
     "email":"diego@diegoduarte.com.br",
