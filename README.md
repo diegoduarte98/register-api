@@ -27,4 +27,8 @@ Bearer {TOKEN}
 
 
 
+<<<<<<< HEAD
 qualquer coisa
+=======
+Pega essa
+>>>>>>> b24692619d3e8fa0e160c2d4b49d07ad38066dfe
